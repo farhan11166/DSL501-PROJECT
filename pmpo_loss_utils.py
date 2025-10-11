@@ -43,7 +43,7 @@ def pmpo_loss(
     pos_term = torch.mean(torch.log_softmax(pos_logits, dim=-1))
     neg_term = torch.mean(torch.log_softmax(neg_logits, dim=-1))
 
-    # choose divergence
+    # divergence
     if divergence == "kl":
         kl_term = kl_divergence(pos_logits, ref_logits)
     elif divergence == "js":
