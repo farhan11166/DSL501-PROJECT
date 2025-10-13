@@ -25,7 +25,19 @@ class PreferenceDataset(Dataset):
         return len(self.data)
 
     def __getitem__(self, idx):
-        #to be completed 
+        item = self.data[idx]
+        enc = self.tokenizer(
+            item["text"],
+            truncation=True,
+            padding="max_length",
+            max_length=self.max_len,
+            return_tensors="pt",
+        )
+        return {
+            "input_ids": enc["input_ids"].squeeze(0),
+            "attention_mask": enc["attention_mask"].squeeze(0),
+            "label": torch.tensor(item["label"], dtype=torch.float),
+        }
 
 
 
