@@ -21,7 +21,15 @@ def kl_divergence(p_logits, q_logits):
 
 
 def js_divergence(p_logits, q_logits):
-    
+    #Compute symmetric JS divergence.
+    p_log_probs = F.log_softmax(p_logits, dim=-1)
+    q_log_probs = F.log_softmax(q_logits, dim=-1)
+    p_probs = torch.exp(p_log_probs)
+    q_probs = torch.exp(q_log_probs)
+    m_probs = 0.5 * (p_probs + q_probs)
+    js = 0.5 * (torch.sum(p_probs * (p_log_probs - torch.log(m_probs)), dim=-1)
+               + torch.sum(q_probs * (q_log_probs - torch.log(m_probs)), dim=-1))
+    return js.mean()    
 
 
 def renyi_divergence(p_logits, q_logits, alpha=1.5):
