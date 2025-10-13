@@ -28,5 +28,4 @@ def split_and_save_dataset(dataset_name="lmsys/lmsys-chat-1m", split="train", ou
     print("All splits saved successfully under:", output_dir)
 
 
-if __name__ == "__main__":
-    split_and_save_dataset()
+
