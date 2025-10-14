@@ -34,7 +34,12 @@ def js_divergence(p_logits, q_logits):
 
 def renyi_divergence(p_logits, q_logits, alpha=1.5):
    
-
+    #Compute Rényi divergence with tunable alpha > 0.
+    p_probs = F.softmax(p_logits, dim=-1)
+    q_probs = F.softmax(q_logits, dim=-1)
+    ratio = torch.pow(p_probs / (q_probs + 1e-9), alpha - 1)
+    r_div = (1 / (alpha - 1)) * torch.log(torch.sum(p_probs * ratio, dim=-1) + 1e-9)
+    return r_div.mean()
 
 
 def pmpo_loss(
